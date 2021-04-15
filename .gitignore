@@ -1,0 +1,7 @@
+# I've been experimenting with one way list at at the beginning of my project.
+/one_way_list
+# Files produced by CMake
+/cmake-build-debug
+#IDE specific folder
+/.idea
+
