@@ -52,7 +52,7 @@ long long int readQPC() {
 
 int main() {
     cout << "------------------SDiZO Projekt------------------" << endl;
-    cout << "Jakub Wierzchowiec, 252738, 04.2021" << endl;
+    cout << "Jakub Wierzchowiec, 04.2021" << endl;
     while (running) {
         cout << "[0] Zakoncz program" << endl;
         cout << "[1] Tryb kontrolny" << endl;
