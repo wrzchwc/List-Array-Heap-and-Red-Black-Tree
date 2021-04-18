@@ -11,14 +11,17 @@ private:
     //dynamic array storing data added to the binary heap
     int *heap;
     //size of the binary heap
-    static int size;
+    int size;
 
     //restores binary heap features to the structure
-    void restore(int range = size, int offset = 1) const;
+    void restore(int range, int offset = 1) const;
 
 public:
     //constructor
     BinaryHeap();
+
+    //destructor
+    virtual ~BinaryHeap();
 
     //adds specified data to heap
     void add(int data);

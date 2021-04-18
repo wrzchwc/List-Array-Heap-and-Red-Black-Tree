@@ -8,6 +8,7 @@
 
 #include "two_way_list/TwoWayList.h"
 #include "array/DynamicArray.h"
+#include "binary_heap/BinaryHeap.h"
 
 
 using namespace std;
@@ -20,7 +21,7 @@ bool structure = true;
 //controls loop of specified mode
 bool mode = true;
 //path to txt file, where randomly generated numbers are stored
-string filepath="random_numbers.txt";
+string filepath = "random_numbers.txt";
 
 void random_numbers_to_txt() {
     fstream file;
@@ -86,6 +87,7 @@ int main() {
                             auto *list = new TwoWayList();
                             cout << "[1] Lista dwukierunkowa" << endl;
                             while (structure) {
+                                list->show();
                                 cout << "DODAWANIE: (A) na poczatek  (B) na koniec     (C) w dowolne miejsce" << endl;
                                 cout << "USUWANIE:  (D) z poczatku   (E) z konca       (F) z dowolnego miejsca" << endl;
                                 cout << "INNE:      (G) Wyszukiwanie (H) Wyczysc liste (X) Powrot" << endl;
@@ -245,7 +247,44 @@ int main() {
                         }
 
                         case 3: {
+                            structure = true;
+                            auto *heap = new BinaryHeap();
                             cout << "[3] Kopiec binarny" << endl;
+                            while (structure) {
+                                heap->show();
+                                cout << "(A) Dodawanie      (B) Usuwanie     (C) Wyszukiwanie" << endl;
+                                cout << "(D) Wyczysc kopiec (X) Powrot" << endl;
+                                cout << ": ";
+                                cin >> operation;
+                                switch (operation) {
+                                    case 'A':
+                                        cout << "Dodawana liczba: ";
+                                        cin >> input;
+                                        heap->add(input);
+                                        break;
+                                    case 'B':
+                                        heap->remove();
+                                        break;
+                                    case 'C':
+                                        cout << "Liczba, która ma być znaleziona: ";
+                                        cin >> input;
+                                        if (heap->contains(input))
+                                            cout << input << " znajduje sie w kopcu." << endl;
+                                        else
+                                            cout << input << " nie znajduje sie w kopcu. " << endl;
+                                        break;
+                                    case 'D':
+                                        heap->removeAll();
+                                        break;
+                                    case 'X':
+                                        structure = false;
+                                        break;
+                                    default:
+                                        cout << "Niepoprwany wybor! Sproboj ponownie" << endl;
+                                        break;
+                                }
+                            }
+                            delete heap;
                             break;
                         }
 
@@ -373,8 +412,8 @@ int main() {
                             file >> size;
                             array = new int[size];
                             //fill the array with random numbers from txt file
-                            for (int i = 0; i<size; i++)
-                                file>>array[i];
+                            for (int i = 0; i < size; i++)
+                                file >> array[i];
                             file.close();
 
                             while (structure) {
@@ -413,7 +452,7 @@ int main() {
                                     cout << "Pozycja do usuniecia: " << endl;
                                     cin >> index;
                                     start = readQPC();
-                                    array= remove(array, &size, index);
+                                    array = remove(array, &size, index);
                                     elapsed = readQPC() - start;
                                 } else if (operation == 'G') {
                                     cout << "Liczba do znalezienia: ";

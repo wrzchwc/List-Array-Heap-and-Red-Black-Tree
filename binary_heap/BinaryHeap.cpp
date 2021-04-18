@@ -27,11 +27,12 @@ void BinaryHeap::add(int data) {
         for (int i = 0; i < size; i++) {
             tmp[i] = heap[i];
         }
-        tmp[size] = data;
+        tmp[size - 1] = data;
         delete heap;
         heap = tmp;
+        restore(size);
     }
-    restore();
+
 
 }
 
@@ -39,8 +40,8 @@ void BinaryHeap::remove() {
     //heap is empty
     if (heap == nullptr || size == 0)
         cout << "Heap is empty!" << endl;
-        //heap is not empty
-    else {
+        //heap has more than one element
+    else if (size > 1) {
         swap(heap[0], heap[size - 1]);
         size--;
         int *tmp = new int[size];
@@ -49,7 +50,13 @@ void BinaryHeap::remove() {
         delete heap;
         heap = tmp;
     }
-    restore();
+        //heap has only one element
+    else {
+        size--;
+        delete heap;
+        heap = nullptr;
+    }
+    restore(size);
 }
 
 bool BinaryHeap::contains(int data) {
@@ -75,8 +82,7 @@ void BinaryHeap::restore(int range, int offset) const {
                 int right_child = 2 * i + 2;
                 swap(heap[right_child], heap[i]);
                 restore(size + right_child, ((size + right_child) / 2 - 1));
-            } else
-                return;
+            }
         }
             //parent has one child - this child is the last leaf
         else if (2 * i + 1 <= size - 1) {
@@ -89,22 +95,26 @@ void BinaryHeap::restore(int range, int offset) const {
 
 void BinaryHeap::show() {
     int tmp = 0;
-    for (int i = 0; i < ceil(log2(size)); i++) {
-        tmp += pow(2, i);
-        if (size - tmp > 0) {
+    for (int i = 0; i <= ceil(log2(size)); i++) {
+        if (size - tmp > tmp) {
             for (int j = 0; j < pow(2, i); j++)
-                cout << heap[i + j] << " " << endl;
-        }else{
-            tmp-=pow(2,i);
-            for (int j = 0; j < size-tmp; j++) {
-                cout<<heap[i+j]<<" "<<endl;
-            }
+                cout << heap[tmp + j] << " ";
+        } else {
+            for (int j = 0; j < size - tmp; j++)
+                cout << heap[tmp + j] << " ";
         }
-        cout<<endl;
+        cout << endl;
+        tmp += pow(2, i);
     }
 }
 
+
 void BinaryHeap::removeAll() {
-    while(size>0)
+    while (size > 0)
         remove();
+}
+
+BinaryHeap::~BinaryHeap() {
+    removeAll();
+    heap = nullptr;
 }
