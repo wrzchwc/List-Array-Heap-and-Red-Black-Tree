@@ -14,18 +14,23 @@
 class BinaryHeap {
 private:
     //dynamic array storing data added to the binary heap
-    int * heap;
+    int *heap;
     //size of the binary heap
-    int size;
+    static int size;
+
     //restores binary heap features to the structure
-    void restore();
+    void restore(int range = size, int offset = 1) const;
+
 public:
     //constructor
     BinaryHeap();
+
     //adds specified data to heap
     void add(int data);
+
     //removes the root of the binary heap
     void remove();
+
     //returns true if heap contains specified data, otherwise returns false
     bool contains(int data);
 

@@ -59,24 +59,31 @@ bool BinaryHeap::contains(int data) {
     return false;
 }
 
-void BinaryHeap::restore() {
-    int last_parent = size / 2 - 1;
-    for (int i = last_parent; i >= 0; i--) {
+void BinaryHeap::restore(int range, int offset) const {
+    for (int i = (range / 2 - 1); i >= (range - size); i = i - offset) {
         //parent has two children
-        if(2*i+2<=size-1){
-//            int *left_child = heap[2 * i + 1], *right_child = heap[2 * i + 2];
-//
-//            if (*left_child > heap[i]){
-//                swap(heap[i],*left_child);
-//
-//            }
-//            else if(*right_child>heap[i]){
-//                swap(heap[i],*right_child);
-//            }
+        if (2 * i + 2 <= size - 1) {
+            //parent is smaller than its left child
+            if (heap[i] < heap[2 * i + 1]) {
+                int left_child = 2 * i + 1;
+                swap(heap[left_child], heap[i]);
+                restore(size + left_child, ((size + left_child) / 2 - 1));
+            }
+                //parent is smaller than its right child
+            else if (heap[i] < heap[2 * i + 2]) {
+                int right_child = 2 * i + 2;
+                swap(heap[right_child], heap[i]);
+                restore(size + right_child, ((size + right_child) / 2 - 1));
+            } else
+                return;
+
+
         }
-        //parent has one child
-        else if(2*i+1<=size-1){
-            int *child=heap[]
+            //parent has one child - this child is the last leaf
+        else if (2 * i + 1 <= size - 1) {
+            if (heap[2 * i + 1] > heap[i]) {
+                swap(heap[2 * i + 1], heap[i]);
+            }
         }
     }
 }
