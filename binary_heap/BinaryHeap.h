@@ -6,10 +6,7 @@
 #define UNTITLED1_BINARYHEAP_H
 
 /*
- * todo int *add()
- * todo int *remove()
  * todo void show()
- * todo int *heap()
  */
 class BinaryHeap {
 private:

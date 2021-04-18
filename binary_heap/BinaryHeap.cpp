@@ -30,7 +30,7 @@ void BinaryHeap::add(int data) {
         delete heap;
         heap = tmp;
     }
-    //todo: heap rebuilding
+    restore();
 
 }
 
@@ -48,7 +48,7 @@ void BinaryHeap::remove() {
         delete heap;
         heap = tmp;
     }
-    //todo: heap rebuilding
+    restore();
 }
 
 bool BinaryHeap::contains(int data) {
@@ -76,8 +76,6 @@ void BinaryHeap::restore(int range, int offset) const {
                 restore(size + right_child, ((size + right_child) / 2 - 1));
             } else
                 return;
-
-
         }
             //parent has one child - this child is the last leaf
         else if (2 * i + 1 <= size - 1) {
