@@ -68,20 +68,20 @@ bool BinaryHeap::contains(int data) {
 }
 
 void BinaryHeap::restore(int range, int offset) const {
-    for (int i = (range / 2 - 1); i >= (range - size); i = i - offset) {
+    for (int i = (range / 2 - 1); i >= 0; i--) {
         //parent has two children
         if (2 * i + 2 <= size - 1) {
             //parent is smaller than its left child
             if (heap[i] < heap[2 * i + 1]) {
                 int left_child = 2 * i + 1;
                 swap(heap[left_child], heap[i]);
-                restore(size + left_child, ((size + left_child) / 2 - 1));
+                restore(size + left_child + 1, left_child);
             }
                 //parent is smaller than its right child
             else if (heap[i] < heap[2 * i + 2]) {
                 int right_child = 2 * i + 2;
                 swap(heap[right_child], heap[i]);
-                restore(size + right_child, ((size + right_child) / 2 - 1));
+                restore(size + right_child + 1, right_child);
             }
         }
             //parent has one child - this child is the last leaf

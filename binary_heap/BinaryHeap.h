@@ -14,7 +14,7 @@ private:
     int size;
 
     //restores binary heap features to the structure
-    void restore(int range, int offset = 1) const;
+    void restore(int range, int offset=0) const;
 
 public:
     //constructor
