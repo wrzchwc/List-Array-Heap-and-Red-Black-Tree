@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "BinaryHeap.h"
 
 using namespace std;
@@ -83,5 +84,22 @@ void BinaryHeap::restore(int range, int offset) const {
                 swap(heap[2 * i + 1], heap[i]);
             }
         }
+    }
+}
+
+void BinaryHeap::show() {
+    int tmp = 0;
+    for (int i = 0; i < ceil(log2(size)); i++) {
+        tmp += pow(2, i);
+        if (size - tmp > 0) {
+            for (int j = 0; j < pow(2, i); j++)
+                cout << heap[i + j] << " " << endl;
+        }else{
+            tmp-=pow(2,i);
+            for (int j = 0; j < size-tmp; j++) {
+                cout<<heap[i+j]<<" "<<endl;
+            }
+        }
+        cout<<endl;
     }
 }

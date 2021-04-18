@@ -5,9 +5,7 @@
 #ifndef UNTITLED1_BINARYHEAP_H
 #define UNTITLED1_BINARYHEAP_H
 
-/*
- * todo void show()
- */
+
 class BinaryHeap {
 private:
     //dynamic array storing data added to the binary heap
@@ -30,6 +28,9 @@ public:
 
     //returns true if heap contains specified data, otherwise returns false
     bool contains(int data);
+
+    //prints content of the binary heap
+    void show();
 
 
 };
