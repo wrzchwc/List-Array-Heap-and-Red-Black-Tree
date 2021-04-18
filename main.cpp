@@ -252,8 +252,8 @@ int main() {
                             cout << "[3] Kopiec binarny" << endl;
                             while (structure) {
                                 heap->show();
-                                cout << "(A) Dodawanie      (B) Usuwanie     (C) Wyszukiwanie" << endl;
-                                cout << "(D) Wyczysc kopiec (X) Powrot" << endl;
+                                cout << "(A) Dodawanie         (B) Usuwanie     (C) Wyszukiwanie" << endl;
+                                cout << "(D) Czyszczenie kopca (X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
                                 switch (operation) {
@@ -312,6 +312,7 @@ int main() {
                 string tmp;
                 long long int frequency, start, elapsed = 0;
                 QueryPerformanceCounter((LARGE_INTEGER *) &frequency);
+                //variable used for measuring time of searching
                 bool found;
                 while (mode) {
                     structure = true;
@@ -329,8 +330,8 @@ int main() {
                             cout << "[1] Lista dwukierunkowa" << endl;
                             random_numbers_to_txt();
 
-                            file.open(filepath, ios::in);
                             //fill the list with random numbers from txt file
+                            file.open(filepath, ios::in);
                             while (getline(file, tmp))
                                 list->addLast(atoi(tmp.c_str()));
                             file.close();
@@ -394,7 +395,7 @@ int main() {
                                 cout << "Time [ms] = " << setprecision(30) << (1000.0 * elapsed) /
                                                                               frequency << endl;
                                 cout << "Time [us] = " << setprecision(30) << (1000000.0 * elapsed) /
-                                                                              frequency << endl << endl;
+                                                                              frequency << endl;
                             }
 
                             delete list;
@@ -481,6 +482,63 @@ int main() {
                         }
 
                         case 3: {
+                            auto *heap = new BinaryHeap();
+                            cout << "[3] Kopiec binarny" << endl;
+                            random_numbers_to_txt();
+
+                            //fill the heap with random numbers form txt file
+                            file.open(filepath, ios::in);
+                            while (getline(file, tmp));
+                            heap->add(atoi(tmp.c_str()));
+                            file.close();
+
+                            while (structure) {
+                                cout << "(A) Dodawanie         (B) Usuwanie     (C) Wyszukiwanie" << endl;
+                                cout << "(D) Czyszczenie kopca (X) Powrot" << endl;
+                                cout << ": ";
+                                cin >> operation;
+                                switch (operation) {
+                                    case 'A':
+                                        cout << "Dodawana liczba: ";
+                                        cin >> input;
+                                        start = readQPC();
+                                        heap->add(input);
+                                        elapsed = readQPC() - start;
+                                        break;
+                                    case 'B':
+                                        start = readQPC();
+                                        heap->remove();
+                                        elapsed = readQPC() - start;
+                                        break;
+                                    case 'C':
+                                        cout << "Liczba do znalezienia: ";
+                                        cin >> input;
+                                        start = readQPC();
+                                        found = heap->contains(input);
+                                        elapsed = readQPC() - start;
+                                        if (found)
+                                            cout << input << "znajduje sie w kopcu." << endl;
+                                        else
+                                            cout << input << "nie znajduje sie w kopcu." << endl;
+                                        break;
+                                    case 'D':
+                                        start = readQPC();
+                                        heap->removeAll();
+                                        elapsed = readQPC() - start;
+                                        break;
+                                    case 'X':
+                                        structure = false;
+                                        break;
+                                    default:
+                                        cout << "Nieprawidlowy wybor sproboj ponownie!" << endl;
+                                        break;
+
+                                }
+                                cout << "Time [s] = " << fixed << setprecision(30) << (float) elapsed / frequency
+                                     << endl;
+                                cout << "Time [ms] = " << setprecision(30) << (1000.0 * elapsed) / frequency << endl;
+                                cout << "Time [us] = " << setprecision(30) << (1000000.0 * elapsed) / frequency << endl;
+                            }
                             break;
                         }
 
