@@ -103,3 +103,8 @@ void BinaryHeap::show() {
         cout<<endl;
     }
 }
+
+void BinaryHeap::removeAll() {
+    while(size>0)
+        remove();
+}

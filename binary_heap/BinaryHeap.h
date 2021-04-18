@@ -26,6 +26,9 @@ public:
     //removes the root of the binary heap
     void remove();
 
+    //removes all data in the binary heap
+    void removeAll();
+
     //returns true if heap contains specified data, otherwise returns false
     bool contains(int data);
 
