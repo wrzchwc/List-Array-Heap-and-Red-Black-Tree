@@ -7,7 +7,7 @@
 #include <windows.h>
 
 #include "two_way_list/TwoWayList.h"
-#include "array/DynamicArray.h"
+#include "dynamic_array/DynamicArrayy.h"
 #include "binary_heap/BinaryHeap.h"
 
 
@@ -412,7 +412,7 @@ int main() {
 
                             file >> size;
                             array = new int[size];
-                            //fill the array with random numbers from txt file
+                            //fill the dynamic_array with random numbers from txt file
                             for (int i = 0; i < size; i++)
                                 file >> array[i];
                             file.close();
