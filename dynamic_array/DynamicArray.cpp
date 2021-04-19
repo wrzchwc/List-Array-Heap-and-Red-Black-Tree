@@ -152,3 +152,7 @@ void DynamicArray::removeAll() {
     while (size>0)
         removeFirst();
 }
+
+void DynamicArray::setArray(int *tmp) {
+    DynamicArray::array = tmp;
+}

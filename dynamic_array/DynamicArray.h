@@ -35,6 +35,8 @@ public:
     void removeAll();
     //prints the content of the dynamic array
     void show();
+    //sets internal array
+    void setArray(int *tmp);
 };
 
 

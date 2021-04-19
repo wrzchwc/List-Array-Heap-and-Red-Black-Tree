@@ -7,7 +7,6 @@
 #include <windows.h>
 
 #include "two_way_list/TwoWayList.h"
-#include "dynamic_array/DynamicArrayy.h"
 #include "binary_heap/BinaryHeap.h"
 #include "dynamic_array/DynamicArray.h"
 
@@ -398,19 +397,21 @@ int main() {
                         }
 
                         case 2: {
-                            int *array = nullptr;
-                            int size = 0;
+                            auto *array = new DynamicArray();
+                            int *tmp_array = nullptr;
 
                             cout << "[2] Tablica dynamiczna" << endl;
                             random_numbers_to_txt();
                             file.open(filepath, ios::in);
-
-                            file >> size;
-                            array = new int[size];
-                            //fill the dynamic_array with random numbers from txt file
-                            for (int i = 0; i < size; i++)
-                                file >> array[i];
+                            //size of the array
+                            file >> input;
+                            tmp_array = new int[input];
+                            //fill the dynamic array with random numbers from txt file
+                            for (int i = 0; i < input; i++)
+                                file >> tmp_array[i];
                             file.close();
+                            array->setArray(tmp_array);
+                            delete tmp_array;
 
                             while (structure) {
                                 cout << "DODAWANIE: (A) na poczatek  (B) na koniec (C) w dowolne miejsce" << endl;
@@ -423,38 +424,38 @@ int main() {
                                     cin >> input;
                                     if (operation == 'A') {
                                         start = readQPC();
-                                        array = addFirst(array, &size, input);
+                                        array->addFirst(input);
                                         elapsed = readQPC() - start;
                                     } else if (operation == 'B') {
                                         start = readQPC();
-                                        array = addLast(array, &size, input);
+                                        array->addLast(input);
                                         elapsed = readQPC() - start;
                                     } else {
                                         cout << "Na jaka pozycje: ";
                                         cin >> index;
                                         start = readQPC();
-                                        array = add(array, &size, index, input);
+                                        array->add(index,input);
                                         elapsed = readQPC() - start;
                                     }
                                 } else if (operation == 'D') {
                                     start = readQPC();
-                                    array = removeFirst(array, &size);
+                                    array->removeFirst();
                                     elapsed = readQPC() - start;
                                 } else if (operation == 'E') {
                                     start = readQPC();
-                                    array = removeLast(array, &size);
+                                    array->removeLast();
                                     elapsed = readQPC() - start;
                                 } else if (operation == 'F') {
                                     cout << "Pozycja do usuniecia: " << endl;
                                     cin >> index;
                                     start = readQPC();
-                                    array = remove(array, &size, index);
+                                    array->removeLast();
                                     elapsed = readQPC() - start;
                                 } else if (operation == 'G') {
                                     cout << "Liczba do znalezienia: ";
                                     cin >> input;
                                     start = readQPC();
-                                    found = contains(array, &size, input);
+                                    found = array->contains(input);
                                     elapsed = readQPC() - start;
                                     if (found)
                                         cout << input << " znajduje sie w tablicy" << endl;
@@ -480,7 +481,7 @@ int main() {
                             auto *heap = new BinaryHeap();
                             cout << "[3] Kopiec binarny" << endl;
                             random_numbers_to_txt();
-
+                            //todo:think of reading numbers from txt file!
                             //fill the heap with random numbers form txt file
                             file.open(filepath, ios::in);
                             while (getline(file, tmp));
