@@ -8,7 +8,7 @@
 
 class BinaryHeap {
 private:
-    //dynamic array storing data added to the binary heap
+    //dynamic dynamic_array storing data added to the binary heap
     int *heap;
     //size of the binary heap
     int size;

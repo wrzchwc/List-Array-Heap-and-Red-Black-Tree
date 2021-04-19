@@ -9,6 +9,7 @@
 #include "two_way_list/TwoWayList.h"
 #include "dynamic_array/DynamicArrayy.h"
 #include "binary_heap/BinaryHeap.h"
+#include "dynamic_array/DynamicArray.h"
 
 
 using namespace std;
@@ -157,14 +158,11 @@ int main() {
 
                         case 2: {
                             structure = true;
-                            int *array = nullptr;
-                            int size = 0;
-
+                            auto *array = new DynamicArray();
                             cout << "[2] Tablica dynamiczna" << endl;
 
                             while (structure) {
-                                show(array, &size);
-
+                                array->show();
                                 cout << "DODAWANIE: (A) na poczatek  (B) na koniec (C) w dowolne miejsce" << endl;
                                 cout << "USUWANIE:  (D) z poczatku   (E) z konca   (F) z dowolnego miejsca" << endl;
                                 cout << "INNE:      (G) Wyszukiwanie (H) Wyczysc   (X) Powrot" << endl;
@@ -175,15 +173,14 @@ int main() {
                                     case 'A': {
                                         cout << "Dodawana liczba: ";
                                         cin >> input;
-
-                                        array = addFirst(array, &size, input);
+                                        array->addFirst(input);
                                         break;
                                     }
 
                                     case 'B': {
                                         cout << "Dodawana liczba: ";
                                         cin >> input;
-                                        array = addLast(array, &size, input);
+                                        array->addLast(input);
                                         break;
                                     }
 
@@ -192,41 +189,39 @@ int main() {
                                         cin >> input;
                                         cout << "Na jaka pozycje: ";
                                         cin >> index;
-                                        array = add(array, &size, index, input);
+                                        array->add(index, input);
                                         break;
                                     }
 
                                     case 'D': {
-                                        array = removeFirst(array, &size);
+                                        array->removeFirst();
                                         break;
                                     }
 
                                     case 'E': {
-                                        array = removeLast(array, &size);
+                                        array->removeLast();
                                         break;
                                     }
 
                                     case 'F': {
                                         cout << "Pozycja do usuniecia: ";
                                         cin >> index;
-                                        array = remove(array, &size, index);
+                                        array->remove(index);
                                         break;
                                     }
 
                                     case 'G': {
                                         cout << "Liczba do znalezienia: ";
                                         cin >> input;
-                                        if (contains(array, &size, input))
+                                        if (array->contains(input))
                                             cout << input << " znajduje sie w tablicy." << endl;
                                         else
-                                            cout << input << " nie znajduje sie w tablicy" << endl;
+                                            cout << input << " nie znajduje sie w tablicy." << endl;
                                         break;
                                     }
 
                                     case 'H': {
-                                        delete[] array;
-                                        size = 0;
-                                        array = nullptr;
+                                        array->removeAll();
                                         break;
                                     }
 
@@ -242,7 +237,7 @@ int main() {
 
                                 }
                             }
-                            delete[] array;
+                            delete array;
                             break;
                         }
 

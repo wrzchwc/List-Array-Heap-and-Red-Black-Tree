@@ -3,4 +3,4 @@ project(untitled1)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(untitled1 main.cpp one_way_list/OneWayList.cpp one_way_list/OneWayList.h one_way_list/ElementOne.cpp one_way_list/ElementOne.h two_way_list/ElementTwo.cpp two_way_list/ElementTwo.h two_way_list/TwoWayList.cpp two_way_list/TwoWayList.h array/DynamicArray.h binary_heap/BinaryHeap.cpp binary_heap/BinaryHeap.h)
+add_executable(untitled1 main.cpp one_way_list/OneWayList.cpp one_way_list/OneWayList.h one_way_list/ElementOne.cpp one_way_list/ElementOne.h two_way_list/ElementTwo.cpp two_way_list/ElementTwo.h two_way_list/TwoWayList.cpp two_way_list/TwoWayList.h dynamic_array/DynamicArrayy.h binary_heap/BinaryHeap.cpp binary_heap/BinaryHeap.h dynamic_array/DynamicArray.cpp dynamic_array/DynamicArray.h)
