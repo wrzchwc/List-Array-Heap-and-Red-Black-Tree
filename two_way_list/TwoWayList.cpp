@@ -35,12 +35,14 @@ ElementTwo *TwoWayList::getPosition(int position) const {
 
 
 void TwoWayList::add(int data, int index) {
-    //adding to empty list or adding at the beginning
-    if (first == nullptr || index <= 0)
+    //incorrect index
+    if (index < 0 || index > size)
+        cout << "Nieprawidlowy indeks elementu do dodania" << endl;
+        //adding to empty list or adding at the beginning
+    else if (first == nullptr || index == 0)
         addFirst(data);
-
         //adding at the end
-    else if (index >= size)
+    else if (index == size)
         addLast(data);
 
         //adding in the middle
@@ -99,7 +101,7 @@ void TwoWayList::show() const {
         tmp = tmp->getNext();
     }
     tmp = last;
-    cout<<endl;
+    cout << endl;
     for (int i = size - 1; tmp != nullptr; i--) {
         cout << tmp->getData() << " ";
         tmp = tmp->getPrevious();
