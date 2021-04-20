@@ -14,6 +14,7 @@
 //todo: public void show()              //using in order ofc
 //todo: public void remove(int data)    // omg, kinda scary
 //todo: public void removeAll()
+//todo: public void show(Node *node)
 class RedBlackTree {
 private:
     //size of the red-black tree
@@ -26,6 +27,18 @@ public:
 
     //destructor
     virtual ~RedBlackTree();
+
+    //adds node to the tree
+    void add(int data, Node *sub_root);
+
+    //prints content of the tree (using in-order way of tree traversing)
+    void show(Node *node);
+
+    //returns the root of the tree
+    [[nodiscard]] Node *getRoot() const;
+
+    //returns true if tree contains specified data, otherwise returns fals
+    bool contains(int data);
 
 };
 

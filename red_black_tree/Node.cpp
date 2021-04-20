@@ -4,7 +4,7 @@
 
 #include "Node.h"
 
-Node::Node(char color, int data) : color(color) {
+Node::Node(int data, char color) : color(color) {
     parent = nullptr;
     left_child = nullptr;
     right_child = nullptr;
@@ -19,10 +19,10 @@ Node::~Node() {
 }
 
 void Node::changeColor() {
-    if (color == 'r')
-        setColor('b');
+    if (color == 'R')
+        setColor('B');
     else
-        setColor('r');
+        setColor('R');
 }
 
 void Node::setColor(char color) {

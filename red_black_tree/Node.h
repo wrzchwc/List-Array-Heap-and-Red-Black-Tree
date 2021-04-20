@@ -24,7 +24,7 @@ private:
 
 public:
     //constructor
-    explicit Node(char color = 'r', int data = 0);
+    explicit Node(int data, char color = 'R');
 
     //destructor
     virtual ~Node();

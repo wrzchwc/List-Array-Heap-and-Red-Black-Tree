@@ -9,6 +9,7 @@
 #include "two_way_list/TwoWayList.h"
 #include "binary_heap/BinaryHeap.h"
 #include "dynamic_array/DynamicArray.h"
+#include "red_black_tree/RedBlackTree.h"
 
 
 using namespace std;
@@ -52,7 +53,8 @@ long long int readQPC() {
 }
 
 int main() {
-    cout << "------------------SDiZO Projekt------------------" << endl;
+
+    cout << "--------------------------------SDiZO Projekt--------------------------------" << endl;
     cout << "Jakub Wierzchowiec, 04.2021" << endl;
     while (running) {
         cout << "[0] Zakoncz program" << endl;
@@ -68,7 +70,7 @@ int main() {
 
             case 1: {
                 while (mode) {
-                    cout << "-----------------Tryb kontrolny-----------------" << endl;
+                    cout << "-------------------------------Tryb kontrolny-------------------------------" << endl;
                     cout << "[1] Lista dwukierunkowa" << endl;
                     cout << "[2] Tablica dynamiczna" << endl;
                     cout << "[3] Kopiec binarny" << endl;
@@ -246,8 +248,8 @@ int main() {
                             cout << "[3] Kopiec binarny" << endl;
                             while (structure) {
                                 heap->show();
-                                cout << "(A) Dodawanie         (B) Usuwanie     (C) Wyszukiwanie" << endl;
-                                cout << "(D) Czyszczenie kopca (X) Powrot" << endl;
+                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie (D) Czyszczenie kopca ";
+                                cout << "(X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
                                 switch (operation) {
@@ -283,7 +285,46 @@ int main() {
                         }
 
                         case 4: {
+                            structure = true;
+                            auto *tree = new RedBlackTree();
                             cout << "[4] Drzewo czerwono - czarne" << endl;
+                            while (structure) {
+                                cout<<"(rodzic adres wartosc kolor)"<<endl;
+                                tree->show(tree->getRoot());
+                                cout << endl;
+                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie";
+                                cout << " (D) Czyszczenie drzewa (X) Powrot" << endl;
+                                cout << ": ";
+                                cin >> operation;
+                                switch (operation) {
+                                    case 'A':
+                                        cout << "Dodawana liczba: ";
+                                        cin >> input;
+                                        tree->add(input,tree->getRoot());
+                                        break;
+                                    case 'B':
+                                        //removing
+                                        break;
+                                    case 'C':
+                                        cout<<"Liczba, ktora ma byc znaleziona: ";
+                                        cin>>input;
+                                        if(tree->contains(input))
+                                            cout<<input<<" znajduje sie w drzewie."<<endl;
+                                        else
+                                            cout<<input<<" nie znajduje sie w drzewie"<<endl;
+                                        break;
+                                    case 'D':
+                                        //removing all nodes
+                                        break;
+                                    case 'X':
+                                        structure = false;
+                                        break;
+                                    default:
+                                        cout << "Niepoprawny wybor! Sproboj ponownie." << endl;
+                                        break;
+                                }
+                            }
+                            delete tree;
                             break;
                         }
 
@@ -434,7 +475,7 @@ int main() {
                                         cout << "Na jaka pozycje: ";
                                         cin >> index;
                                         start = readQPC();
-                                        array->add(index,input);
+                                        array->add(index, input);
                                         elapsed = readQPC() - start;
                                     }
                                 } else if (operation == 'D') {
