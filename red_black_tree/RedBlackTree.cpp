@@ -51,8 +51,8 @@ void RedBlackTree::show(Node *node) {
     Node *tmpParent = nullptr;
     if (tmp == nullptr)
         return;
+    cout << "(" << tmp->getParent() << " " << tmp << " " << tmp->getData() << " " << tmp->getColor() << ")" << endl;
     show(tmp->getLeftChild());
-    cout<<"("<<tmp->getParent()<<" "<<tmp<<" "<<tmp->getData() << " " << tmp->getColor()<<")"<<endl;
     show(tmp->getRightChild());
 }
 
