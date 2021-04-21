@@ -30,7 +30,7 @@ public:
     virtual ~Node();
 
     //changes the color of the node
-    void changeColor();
+    void invertColor();
 
     //returns the parent of the node
     [[nodiscard]] Node *getParent() const;
@@ -55,6 +55,9 @@ public:
 
     //returns data stored in the node
     [[nodiscard]] int getData() const;
+
+    //returns parent node's sibling
+    Node *getSibling(Node *parent, Node *child);
 
 };
 

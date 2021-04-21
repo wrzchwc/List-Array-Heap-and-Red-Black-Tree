@@ -289,7 +289,7 @@ int main() {
                             auto *tree = new RedBlackTree();
                             cout << "[4] Drzewo czerwono - czarne" << endl;
                             while (structure) {
-                                cout<<"(rodzic adres wartosc kolor)"<<endl;
+                                cout << "(rodzic adres wartosc kolor)" << endl;
                                 tree->show(tree->getRoot());
                                 cout << endl;
                                 cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie";
@@ -300,18 +300,18 @@ int main() {
                                     case 'A':
                                         cout << "Dodawana liczba: ";
                                         cin >> input;
-                                        tree->add(input,tree->getRoot());
+                                        tree->add(input, tree->getRoot());
                                         break;
                                     case 'B':
                                         //removing
                                         break;
                                     case 'C':
-                                        cout<<"Liczba, ktora ma byc znaleziona: ";
-                                        cin>>input;
-                                        if(tree->contains(input))
-                                            cout<<input<<" znajduje sie w drzewie."<<endl;
+                                        cout << "Liczba, ktora ma byc znaleziona: ";
+                                        cin >> input;
+                                        if (tree->contains(input, tree->getRoot()))
+                                            cout << input << " znajduje sie w drzewie." << endl;
                                         else
-                                            cout<<input<<" nie znajduje sie w drzewie"<<endl;
+                                            cout << input << " nie znajduje sie w drzewie" << endl;
                                         break;
                                     case 'D':
                                         //removing all nodes

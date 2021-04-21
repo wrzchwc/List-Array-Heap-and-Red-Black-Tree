@@ -18,7 +18,7 @@ Node::~Node() {
     right_child = nullptr;
 }
 
-void Node::changeColor() {
+void Node::invertColor() {
     if (color == 'R')
         setColor('B');
     else
@@ -38,7 +38,10 @@ void Node::setParent(Node *parent) {
 }
 
 Node *Node::getLeftChild() const {
-    return left_child;
+    if(left_child!= nullptr)
+        return left_child;
+    else
+        return nullptr;
 }
 
 void Node::setLeftChild(Node *leftChild) {
@@ -46,7 +49,10 @@ void Node::setLeftChild(Node *leftChild) {
 }
 
 Node *Node::getRightChild() const {
-    return right_child;
+    if(right_child!= nullptr)
+        return right_child;
+    else
+        return nullptr;
 }
 
 void Node::setRightChild(Node *rightChild) {
@@ -59,4 +65,14 @@ char Node::getColor() const {
 
 int Node::getData() const {
     return data;
+}
+
+Node *Node::getSibling(Node *parent, Node *child) {
+    if (parent != nullptr) {
+        if (child->getData() < parent->getData())
+            return parent->getRightChild();
+        else
+            return parent->getLeftChild();
+    } else
+        return nullptr;
 }
