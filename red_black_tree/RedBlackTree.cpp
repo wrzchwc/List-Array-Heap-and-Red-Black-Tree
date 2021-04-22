@@ -137,11 +137,11 @@ void RedBlackTree::verifyAfterAddition(Node *child, Node *parent) {
 
 void RedBlackTree::remove(int data) {
     //todo: Replace color and value instead of minding everything.
-    size--;
     bool success = false;
     bool cases = false;
     int option;
     if (contains(data, root)) {
+        size--;
         Node *deleted = find(data);
         char oldColor = deleted->getColor();
         char newColor;
@@ -159,13 +159,13 @@ void RedBlackTree::remove(int data) {
             }
             delete deleted;
             newColor = 'N';
-        } else if (leftOrphan != nullptr) {
+        } else if (rightOrphan == nullptr) {
             newColor = leftOrphan->getColor();
             deleted->setColor(newColor);
             deleted->setData(leftOrphan->getData());
             deleted->setLeftChild(nullptr);
             delete leftOrphan;
-        } else if (rightOrphan != nullptr) {
+        } else if (leftOrphan == nullptr) {
             newColor = rightOrphan->getColor();
             deleted->setColor(newColor);
             deleted->setData(rightOrphan->getData());
