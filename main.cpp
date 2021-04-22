@@ -303,7 +303,9 @@ int main() {
                                         tree->add(input, tree->getRoot());
                                         break;
                                     case 'B':
-                                        //removing
+                                        cout<<"Usuwana liczba: ";
+                                        cin >> input;
+                                        tree->remove(input);
                                         break;
                                     case 'C':
                                         cout << "Liczba, ktora ma byc znaleziona: ";

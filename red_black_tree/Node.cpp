@@ -38,7 +38,7 @@ void Node::setParent(Node *parent) {
 }
 
 Node *Node::getLeftChild() const {
-    if(left_child!= nullptr)
+    if (left_child != nullptr)
         return left_child;
     else
         return nullptr;
@@ -49,7 +49,7 @@ void Node::setLeftChild(Node *leftChild) {
 }
 
 Node *Node::getRightChild() const {
-    if(right_child!= nullptr)
+    if (right_child != nullptr)
         return right_child;
     else
         return nullptr;
@@ -75,4 +75,8 @@ Node *Node::getSibling(Node *parent, Node *child) {
             return parent->getLeftChild();
     } else
         return nullptr;
+}
+
+void Node::setData(int data) {
+    Node::data = data;
 }

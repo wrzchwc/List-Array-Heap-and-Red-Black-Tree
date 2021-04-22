@@ -19,9 +19,6 @@ private:
     //data stored in the node
     int data;
 
-    //sets the color of the node
-    void setColor(char color);
-
 public:
     //constructor
     explicit Node(int data, char color = 'R');
@@ -53,8 +50,14 @@ public:
     //returns the color of the node
     [[nodiscard]] char getColor() const;
 
+    //sets the color of the node
+    void setColor(char color);
+
     //returns data stored in the node
     [[nodiscard]] int getData() const;
+
+    //sets data stored in the node to specified value
+    void setData(int data);
 
     //returns parent node's sibling
     Node *getSibling(Node *parent, Node *child);

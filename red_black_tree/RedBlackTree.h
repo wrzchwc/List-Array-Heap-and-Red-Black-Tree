@@ -6,13 +6,6 @@
 #ifndef UNTITLED1_REDBLACKTREE_H
 #define UNTITLED1_REDBLACKTREE_H
 
-//todo: What should be done here ?
-//todo: public void add(int data);
-//todo: private void checkConflict(Node*parent, Node*child)
-//todo: private void verifyAfterAddition(Node *parent, Node *child)
-//todo: private void verifyAfterDeletion(Node *parent, Node *child)
-//todo: private void rotate(Node*A, Node*B, bool left)
-//todo: public void show(Node *node)     //using post order ofc
 //todo: public void remove(int data)    // omg, kinda scary
 //todo: public void removeAll()
 class RedBlackTree {
@@ -27,6 +20,18 @@ private:
 
     //checks if all the properties of red-black tree are maintained after addition
     void verifyAfterAddition(Node *child, Node *parent);
+
+    //locates node containing specified data
+    Node *find(int data);
+
+    //finds successor of the given node
+    Node *findSuccessor(Node *node);
+
+    //finds the node with the minimal data in given subtree
+    Node *findMinData(Node *node);
+
+    //co-method for remove method, decides which case occurs
+    void whichCase(Node *node, int *option, char newColor);
 
 public:
     //constructor
@@ -46,6 +51,10 @@ public:
 
     //returns true if tree contains specified data, otherwise returns false
     bool contains(int data, Node *node);
+
+    //remove specified data
+    void remove(int data);
+
 
 };
 
