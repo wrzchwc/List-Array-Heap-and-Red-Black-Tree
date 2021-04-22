@@ -137,6 +137,7 @@ void RedBlackTree::verifyAfterAddition(Node *child, Node *parent) {
 
 void RedBlackTree::remove(int data) {
     //todo: Replace color and value instead of minding everything.
+    size--;
     bool success = false;
     bool cases = false;
     int option;
@@ -149,7 +150,7 @@ void RedBlackTree::remove(int data) {
         Node *rightOrphan = deleted->getRightChild();
         //the replacement of x
         Node *x;
-        if (leftOrphan && rightOrphan == nullptr) {
+        if (leftOrphan == nullptr && rightOrphan == nullptr) {
             if (deleted->getParent() != nullptr) {
                 if (deleted->getData() < deleted->getParent()->getData())
                     deleted->getParent()->setLeftChild(nullptr);
@@ -253,15 +254,15 @@ void RedBlackTree::remove(int data) {
                 case 4: {
                     w->setColor(deleted->getParent()->getColor());
                     deleted->getParent()->setColor('R');
-                    if(deleted==deleted->getLeftChild())
+                    if (deleted == deleted->getLeftChild())
                         w->getLeftChild()->setColor('B');
                     else
                         w->getRightChild()->setColor('R');
-                    if(deleted==deleted->getLeftChild())
-                        rotate(deleted->getParent(),deleted);
+                    if (deleted == deleted->getLeftChild())
+                        rotate(deleted->getParent(), deleted);
                     else
                         rotate(deleted->getParent(), deleted, false);
-                    success= true;
+                    success = true;
                 }
                     break;
             }
@@ -269,7 +270,7 @@ void RedBlackTree::remove(int data) {
 
 
     } else
-        cout << "W drzewie nie ma wierzchołka zawierającego wartosc " << data << endl;
+        cout << "W drzewie nie ma wierzcholka zawierajacego wartosc " << data << endl;
 }
 
 Node *RedBlackTree::find(int data) {
