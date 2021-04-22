@@ -176,27 +176,28 @@ void RedBlackTree::remove(int data) {
             newColor = x->getColor();
             deleted->setColor(newColor);
             deleted->setData(x->getData());
-            if(x->getData()>=oldData){
+            if (x->getData() >= oldData) {
                 deleted->setRightChild(x->getRightChild());
-                x->getRightChild()->setParent(deleted);
-            }
-            else{
+                if (x->getRightChild() != nullptr)
+                    x->getRightChild()->setParent(deleted);
+            } else {
                 deleted->setLeftChild(x->getLeftChild());
-                x->getLeftChild()->setParent(deleted);
+                if (x->getLeftChild() != nullptr)
+                    x->getLeftChild()->setParent(deleted);
             }
             delete x;
         }
 
         if (oldColor == 'R' && (newColor == 'R' || newColor == 'N'))
-            success = true; // We are done.
+            success = true;
         else if (oldColor == 'B' && newColor == 'R') {
             deleted->setColor('B');
-            success = true; // We are done
+            success = true;
         } else if (oldColor == 'R' && newColor == 'B') {
             deleted->setColor('R');
-            cases = true; // We proceed to the appropriate case
+            cases = true; // proceed to the appropriate case
         } else if (oldColor == 'B' && (newColor == 'B' || newColor == 'N'))
-            cases = true; // We proceed to the appropriate case
+            cases = true; // proceed to the appropriate case
 
         if (cases)
             whichCase(deleted, &option, oldColor);
