@@ -136,7 +136,6 @@ void RedBlackTree::verifyAfterAddition(Node *child, Node *parent) {
 }
 
 void RedBlackTree::remove(int data) {
-    //todo: Replace color and value instead of minding everything.
     bool success = false;
     bool cases = false;
     int option;
@@ -144,6 +143,7 @@ void RedBlackTree::remove(int data) {
         size--;
         Node *deleted = find(data);
         char oldColor = deleted->getColor();
+        int oldData = deleted->getData();
         char newColor;
         //children of the deleted node
         Node *leftOrphan = deleted->getLeftChild();
@@ -176,10 +176,14 @@ void RedBlackTree::remove(int data) {
             newColor = x->getColor();
             deleted->setColor(newColor);
             deleted->setData(x->getData());
-            if (x->getData() < x->getParent()->getData())
-                x->getParent()->setLeftChild(nullptr);
-            else
-                x->getParent()->setRightChild(nullptr);
+            if(x->getData()>=oldData){
+                deleted->setRightChild(x->getRightChild());
+                x->getRightChild()->setParent(deleted);
+            }
+            else{
+                deleted->setLeftChild(x->getLeftChild());
+                x->getLeftChild()->setParent(deleted);
+            }
             delete x;
         }
 
@@ -195,13 +199,13 @@ void RedBlackTree::remove(int data) {
             cases = true; // We proceed to the appropriate case
 
         if (cases)
-            whichCase(deleted, &option, newColor);
+            whichCase(deleted, &option, oldColor);
 
         while (!success) {
             Node *w = deleted->getSibling(deleted->getParent(), deleted);
             switch (option) {
                 case 0: {
-                    deleted->setColor('R');
+                    deleted->getRightChild()->setColor('B');
                     success = true;
                 }
                     break;
