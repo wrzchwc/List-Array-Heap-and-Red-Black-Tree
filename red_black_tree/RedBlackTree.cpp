@@ -148,7 +148,7 @@ void RedBlackTree::remove(int data) {
         Node *leftOrphan = deleted->getLeftChild();
         Node *rightOrphan = deleted->getRightChild();
         //the replacement of x
-        Node *x;
+        Node *x = nullptr;
         //sibling of x
         Node *w;
         if (leftOrphan == nullptr && rightOrphan == nullptr) {
@@ -162,7 +162,7 @@ void RedBlackTree::remove(int data) {
                 w = deleted->getSibling(deleted->getParent(), deleted);
             delete deleted;
             deleted = nullptr;
-            newColor = 'N';
+            newColor = 'B';
         } else if (rightOrphan == nullptr) {
             newColor = leftOrphan->getColor();
             deleted->setColor(newColor);
@@ -194,7 +194,7 @@ void RedBlackTree::remove(int data) {
             delete replacement;
         }
 
-        if (oldColor == 'R' && (newColor == 'R' || newColor == 'N'))
+        if (oldColor == 'R' && (newColor == 'R' || x == nullptr))
             success = true;
         else if (oldColor == 'B' && newColor == 'R') {
             deleted->setColor('B');
