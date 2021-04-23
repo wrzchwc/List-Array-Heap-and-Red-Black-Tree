@@ -31,7 +31,7 @@ private:
     Node *minData(Node *node);
 
     //co-method for remove method, decides which case occurs
-    int whichCase(Node *node, Node *siblingNode);
+    int whichCase(Node *node, Node *siblingNode, char color);
 
 public:
     //constructor
