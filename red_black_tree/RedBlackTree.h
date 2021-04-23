@@ -31,7 +31,7 @@ private:
     Node *minData(Node *node);
 
     //co-method for remove method, decides which case occurs
-    int whichCase(Node *node, Node *siblingNode, char color);
+    static int whichCase(Node *siblingNode, char color);
 
 public:
     //constructor
@@ -41,7 +41,7 @@ public:
     virtual ~RedBlackTree();
 
     //adds node to the tree
-    void add(int data, Node *sub_root);
+    void add(int data);
 
     //prints content of the tree (using pre-order way of tree traversing)
     void show(Node *node);
@@ -50,7 +50,7 @@ public:
     [[nodiscard]]  Node *getRoot();
 
     //returns true if tree contains specified data, otherwise returns false
-    bool contains(int data, Node *node);
+    bool contains(int data);
 
     //remove specified data
     void remove(int data);

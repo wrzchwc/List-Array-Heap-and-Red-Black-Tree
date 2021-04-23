@@ -300,7 +300,7 @@ int main() {
                                     case 'A':
                                         cout << "Dodawana liczba: ";
                                         cin >> input;
-                                        tree->add(input, tree->getRoot());
+                                        tree->add(input);
                                         break;
                                     case 'B':
                                         cout<<"Usuwana liczba: ";
@@ -310,7 +310,7 @@ int main() {
                                     case 'C':
                                         cout << "Liczba, ktora ma byc znaleziona: ";
                                         cin >> input;
-                                        if (tree->contains(input, tree->getRoot()))
+                                        if (tree->contains(input))
                                             cout << input << " znajduje sie w drzewie." << endl;
                                         else
                                             cout << input << " nie znajduje sie w drzewie" << endl;
