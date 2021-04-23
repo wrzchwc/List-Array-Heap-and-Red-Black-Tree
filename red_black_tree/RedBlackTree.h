@@ -25,10 +25,10 @@ private:
     Node *find(int data);
 
     //finds successor of the given node
-    Node *findSuccessor(Node *node);
+    Node *successor(Node *node);
 
     //finds the node with the minimal data in given subtree
-    Node *findMinData(Node *node);
+    Node *minData(Node *node);
 
     //co-method for remove method, decides which case occurs
     int whichCase(Node *node, Node *siblingNode);
