@@ -150,6 +150,8 @@ void RedBlackTree::remove(int data) {
         Node *rightOrphan = deleted->getRightChild();
         //the replacement of x
         Node *x;
+        //sibling of x
+        Node *w;
         if (leftOrphan == nullptr && rightOrphan == nullptr) {
             if (deleted->getParent() != nullptr) {
                 if (deleted->getData() < deleted->getParent()->getData())
@@ -176,14 +178,21 @@ void RedBlackTree::remove(int data) {
             newColor = x->getColor();
             deleted->setColor(newColor);
             deleted->setData(x->getData());
+            //the successor was in the right subtree
             if (x->getData() >= oldData) {
-                deleted->setRightChild(x->getRightChild());
-                if (x->getRightChild() != nullptr)
-                    x->getRightChild()->setParent(deleted);
-            } else {
-                deleted->setLeftChild(x->getLeftChild());
-                if (x->getLeftChild() != nullptr)
-                    x->getLeftChild()->setParent(deleted);
+//                deleted->setRightChild(x->getRightChild());
+//                if (x->getRightChild() != nullptr)
+//                    x->getRightChild()->setParent(deleted);
+                deleted->getRightChild()->setLeftChild(nullptr);
+                w = deleted->getRightChild()->getRightChild();
+            }
+                //the successor was in the left subtree
+            else {
+//                deleted->setLeftChild(x->getLeftChild());
+//                if (x->getLeftChild() != nullptr)
+//                    x->getLeftChild()->setParent(deleted);
+                deleted->getLeftChild()->setRightChild(nullptr);
+                w = deleted->getLeftChild()->getLeftChild();
             }
             delete x;
         }
@@ -195,15 +204,11 @@ void RedBlackTree::remove(int data) {
             success = true;
         } else if (oldColor == 'R' && newColor == 'B') {
             deleted->setColor('R');
-            cases = true; // proceed to the appropriate case
+            option = whichCase(deleted, w);
         } else if (oldColor == 'B' && (newColor == 'B' || newColor == 'N'))
-            cases = true; // proceed to the appropriate case
-
-        if (cases)
-            whichCase(deleted, &option, oldColor);
+            option = whichCase(deleted, w);
 
         while (!success) {
-            Node *w = deleted->getSibling(deleted->getParent(), deleted);
             switch (option) {
                 case 0: {
                     deleted->getRightChild()->setColor('B');
@@ -224,7 +229,7 @@ void RedBlackTree::remove(int data) {
                         w->setParent(deleted->getParent());
                         deleted->getParent()->setRightChild(w);
                     }
-                    whichCase(deleted, &option, newColor);
+                    whichCase(deleted, nullptr);
                 }
                     break;
                 case 2: {
@@ -235,7 +240,7 @@ void RedBlackTree::remove(int data) {
                         success = true;
                     } else {
                         newColor = deleted->getColor();
-                        whichCase(deleted, &option, newColor);
+                        whichCase(deleted, nullptr);
                     }
                 }
                     break;
@@ -249,7 +254,7 @@ void RedBlackTree::remove(int data) {
                         rotate(deleted->getParent(), deleted, false);
                     else
                         rotate(deleted->getParent(), deleted);
-                    if (deleted = deleted->getParent()->getLeftChild())
+                    if (deleted == deleted->getParent()->getLeftChild())
                         w = deleted->getParent()->getRightChild();
                     else
                         w = deleted->getParent()->getLeftChild();
@@ -270,6 +275,8 @@ void RedBlackTree::remove(int data) {
                     success = true;
                 }
                     break;
+                default:
+                    cout<<"Wystapil blad podczas usuwania!"<<endl;
             }
         }
 
@@ -312,26 +319,40 @@ Node *RedBlackTree::findMinData(Node *node) {
     return tmp;
 }
 
-void RedBlackTree::whichCase(Node *node, int *option, char newColor) {
-    Node *w = node->getSibling(node->getParent(), node);
-    if (newColor == 'R')
-        *option = 0;
-    else if (newColor == 'B' && w->getColor() == 'R')
-        *option = 1;
-    else if (node->getColor() && w->getColor() && w->getLeftChild()->getColor() &&
-             w->getRightChild()->getColor() == 'B')
-        *option = 2;
-    else if (newColor && w->getColor() == 'B') {
-        //If x is the left child, w's left child is red and w's right child is black
-        if ((node->getData() < node->getParent()->getData() && w->getLeftChild()->getColor() == 'R' &&
-             w->getRightChild()->getColor() == 'B') || (node->getData() >= node->getParent()->getData() &&
-                                                        w->getLeftChild()->getColor() == 'B' &&
-                                                        w->getRightChild()->getColor() == 'R'))
-            *option = 3;
-    } else if (node->getColor() && w->getColor() == 'B') {
-        if ((node == node->getParent()->getLeftChild() && w->getRightChild()->getColor() == 'R') ||
-            (node == node->getParent()->getRightChild() && w->getLeftChild()->getColor() == 'R'))
-            *option = 4;
+int RedBlackTree::whichCase(Node *node, Node *siblingNode) {
+    char nodeColor = node->getColor();
+    char siblingColor = siblingNode->getColor();
+
+    //the color of the sibling node's left child
+    char leftColor = 'N';
+
+    //the color of the sibling node's right child
+    char rightColor = 'N';
+
+    if (siblingNode->getLeftChild())
+        leftColor = siblingNode->getLeftChild()->getColor();
+    if (siblingNode->getRightChild())
+        rightColor = siblingNode->getRightChild()->getColor();
+
+    //true if the node is the left child of its parent, false otherwise
+    bool sideOfNode = true;
+    if (node->getParent())
+        if (node == node->getParent()->getRightChild())
+            sideOfNode = false;
+
+    if (nodeColor == 'R')
+        return 0;
+    else if (nodeColor == 'B' && siblingColor == 'R')
+        return 1;
+    else if (nodeColor == 'B' && siblingColor == 'B' && leftColor == 'B' && rightColor == 'B')
+        return 2;
+    else if (nodeColor == 'B' && siblingColor == 'B' &&
+             ((sideOfNode && leftColor == 'R' && rightColor == 'B') ||
+              (!sideOfNode && leftColor == 'B' && rightColor == 'R'))) {
+        return 3;
+    } else if (nodeColor == 'B' && siblingColor == 'B' &&
+               (sideOfNode && rightColor == 'R') || (!sideOfNode && leftColor == 'R')) {
+        return 4;
     }
 }
 
