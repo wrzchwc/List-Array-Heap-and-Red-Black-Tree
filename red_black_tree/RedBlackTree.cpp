@@ -141,6 +141,11 @@ void RedBlackTree::remove(int data) {
     if (contains(data)) {
         size--;
         Node *deleted = find(data);
+        if (size == 0) {
+            delete deleted;
+            root = nullptr;
+            return;
+        }
         char oldColor = deleted->getColor();
         int oldData = deleted->getData();
         char newColor;
@@ -196,14 +201,14 @@ void RedBlackTree::remove(int data) {
 
         if (oldColor == 'R' && newColor == 'B') {
             deleted->setColor('R');
-            option = whichCase(w, x?x->getColor():'B');
+            option = whichCase(w, x ? x->getColor() : 'B');
         } else if (oldColor == 'R' && (newColor == 'R' || newColor == 'N')) {
             success = true;
         } else if (oldColor == 'B' && newColor == 'R') {
             deleted->setColor('B');
             success = true;
         } else
-            option = whichCase(w, x?x->getColor():'B');
+            option = whichCase(w, x ? x->getColor() : 'B');
 
         while (!success) {
             //true if node is the left child of its parent, false otherwise
@@ -226,7 +231,7 @@ void RedBlackTree::remove(int data) {
                         w = w->getLeftChild()->getRightChild();
                     else
                         w = w->getRightChild()->getLeftChild();
-                    option = whichCase(w, x?x->getColor():'B');
+                    option = whichCase(w, x ? x->getColor() : 'B');
                 }
                     break;
                 case 2: {
