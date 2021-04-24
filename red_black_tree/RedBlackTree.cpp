@@ -194,14 +194,14 @@ void RedBlackTree::remove(int data) {
             delete replacement;
         }
 
-        if (oldColor == 'R' && (newColor == 'R' || x == nullptr))
+        if (oldColor == 'R' && newColor == 'B' && x != nullptr) {
+            deleted->setColor('R');
+            option = whichCase(w, x->getColor());
+        } else if (oldColor == 'R' && (newColor == 'R' || x == nullptr && newColor == 'B')) {
             success = true;
-        else if (oldColor == 'B' && newColor == 'R') {
+        } else if (oldColor == 'B' && newColor == 'R') {
             deleted->setColor('B');
             success = true;
-        } else if (oldColor == 'R' && newColor == 'B') {
-            deleted->setColor('R');
-            option = whichCase(w, newColor);
         } else
             option = whichCase(w, newColor);
 
