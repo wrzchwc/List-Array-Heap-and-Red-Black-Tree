@@ -80,3 +80,11 @@ Node *Node::getSibling(Node *parent, Node *child) {
 void Node::setData(int data) {
     Node::data = data;
 }
+
+Node::Node(Node *node) {
+    data = node->getData();
+    color = node->getColor();
+    left_child = node->getLeftChild();
+    right_child = node->getRightChild();
+    parent = node->getParent();
+}

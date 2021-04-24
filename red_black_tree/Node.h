@@ -20,6 +20,8 @@ private:
     int data;
 
 public:
+    explicit Node(Node *node);
+
     //constructor
     explicit Node(int data, char color = 'R');
 
