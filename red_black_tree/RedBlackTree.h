@@ -52,9 +52,11 @@ public:
     //returns true if tree contains specified data, otherwise returns false
     bool contains(int data);
 
-    //remove specified data
+    //removes specified data
     void remove(int data);
 
+    //removes all nodes
+    void removeAll(Node *node);
 
 };
 

@@ -13,8 +13,8 @@ RedBlackTree::RedBlackTree() {
     root = nullptr;
 }
 
-RedBlackTree::~RedBlackTree() {
-    //todo:invoke removeAll or something like this here idk
+RedBlackTree::~RedBlackTree(){
+    removeAll(getRoot());
 }
 
 void RedBlackTree::add(int data) {
@@ -236,13 +236,13 @@ void RedBlackTree::remove(int data) {
                     break;
                 case 2: {
                     w->setColor('R');
-                    deleted = deleted->getParent();
-                    if (deleted->getColor() == 'R') {
-                        deleted->setColor('B');
+                    x = w->getParent();
+                    if (x->getColor() == 'R') {
+                        x->setColor('B');
                         success = true;
                     } else {
-                        newColor = deleted->getColor();
-                        option = whichCase(w, 'B');
+                        w = x->getSibling(x->getParent(), x);
+                        option = whichCase(w, x ? x->getColor() : 'B');
                     }
                 }
                     break;
@@ -273,6 +273,10 @@ void RedBlackTree::remove(int data) {
                 default:
                     cout << "Wystapil blad podczas usuwania!" << endl;
             }
+        }
+        if(size==3&&root->getLeftChild()->getColor()=='B'&&root->getRightChild()->getColor()=='B'){
+            root->getLeftChild()->setColor('R');
+            root->getRightChild()->setColor('R');
         }
     } else
         cout << "W drzewie nie ma wierzcholka zawierajacego wartosc " << data << endl;
@@ -313,19 +317,23 @@ Node *RedBlackTree::minData(Node *node) {
 }
 
 int RedBlackTree::whichCase(Node *siblingNode, char color) {
-    char siblingColor = siblingNode->getColor();
+    char siblingColor = 'B';
     char leftColor = 'B';   //the color of the sibling node's left child
     char rightColor = 'B';  //the color of the sibling node's right child
+    if (siblingNode) {
+        siblingColor = siblingNode->getColor();
+        if (siblingNode->getLeftChild())
+            leftColor = siblingNode->getLeftChild()->getColor();
+        if (siblingNode->getRightChild())
+            rightColor = siblingNode->getRightChild()->getColor();
+    }
 
-    if (siblingNode->getLeftChild())
-        leftColor = siblingNode->getLeftChild()->getColor();
-    if (siblingNode->getRightChild())
-        rightColor = siblingNode->getRightChild()->getColor();
 
     //true if the node is the left child of its parent, false otherwise
     bool leftSideNode = true;
-    if (siblingNode->getParent()->getRightChild() == nullptr)
-        leftSideNode = false;
+    if (siblingNode)
+        if (siblingNode->getParent()->getRightChild() == nullptr)
+            leftSideNode = false;
 
     if (color == 'R')
         return 0;
@@ -342,6 +350,14 @@ int RedBlackTree::whichCase(Node *siblingNode, char color) {
         return 4;
     }
     return 5; //error code
+}
+
+void RedBlackTree::removeAll(Node *node) {
+    if (node == nullptr)
+        return;
+    removeAll(node->getLeftChild());
+    removeAll(node->getRightChild());
+    delete node;
 }
 
 

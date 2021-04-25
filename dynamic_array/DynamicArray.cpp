@@ -149,10 +149,18 @@ void DynamicArray::show() {
 }
 
 void DynamicArray::removeAll() {
-    while (size>0)
+    while (size > 0)
         removeFirst();
 }
 
 void DynamicArray::setArray(int *tmp) {
     DynamicArray::array = tmp;
+}
+
+DynamicArray::DynamicArray(int *tmp, int size) {
+    this->array = new int[size];
+    for (int i = 0; i < size; i++) {
+        array[i] = tmp[i];
+    }
+    this->size = size;
 }

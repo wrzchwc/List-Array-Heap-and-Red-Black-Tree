@@ -2,27 +2,22 @@
 #include <random>
 #include <fstream>
 #include <string>
-
-#include <iomanip>
-#include <windows.h>
+#include <chrono>
 
 #include "two_way_list/TwoWayList.h"
 #include "binary_heap/BinaryHeap.h"
 #include "dynamic_array/DynamicArray.h"
 #include "red_black_tree/RedBlackTree.h"
 
-
 using namespace std;
+using namespace std::chrono;
+
 int input, index;
 char operation;
-//controls the main loop of the program
-bool running = true;
-//controls loop of given structure while working in specified mode
-bool structure = true;
-//controls loop of specified mode
-bool mode = true;
-//path to txt file, where randomly generated numbers are stored
-string filepath = "random_numbers.txt";
+bool running = true;                    //controls the main loop of the program
+bool structure = true;                  //controls loop of given structure while working in specified mode
+bool mode = true;                       //controls loop of specified mode
+string filepath = "random_numbers.txt"; //path to txt file, where randomly generated numbers are stored
 
 void random_numbers_to_txt() {
     fstream file;
@@ -46,11 +41,6 @@ void random_numbers_to_txt() {
 
 }
 
-long long int readQPC() {
-    LARGE_INTEGER count;
-    QueryPerformanceCounter(&count);
-    return ((long long int) count.QuadPart);
-}
 
 int main() {
 
@@ -67,7 +57,6 @@ int main() {
                 running = false;
                 break;
             }
-
             case 1: {
                 while (mode) {
                     cout << "-------------------------------Tryb kontrolny-------------------------------" << endl;
@@ -83,7 +72,6 @@ int main() {
                             mode = false;
                             break;
                         }
-
                         case 1: {
                             structure = true;
                             auto *list = new TwoWayList();
@@ -241,7 +229,6 @@ int main() {
                             delete array;
                             break;
                         }
-
                         case 3: {
                             structure = true;
                             auto *heap = new BinaryHeap();
@@ -283,13 +270,13 @@ int main() {
                             delete heap;
                             break;
                         }
-
                         case 4: {
                             structure = true;
                             auto *tree = new RedBlackTree();
                             cout << "[4] Drzewo czerwono - czarne" << endl;
                             while (structure) {
                                 cout << "(rodzic adres wartosc kolor)" << endl;
+
                                 tree->show(tree->getRoot());
                                 cout << endl;
                                 cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie";
@@ -303,7 +290,7 @@ int main() {
                                         tree->add(input);
                                         break;
                                     case 'B':
-                                        cout<<"Usuwana liczba: ";
+                                        cout << "Usuwana liczba: ";
                                         cin >> input;
                                         tree->remove(input);
                                         break;
@@ -316,7 +303,8 @@ int main() {
                                             cout << input << " nie znajduje sie w drzewie" << endl;
                                         break;
                                     case 'D':
-                                        //removing all nodes
+                                        tree->removeAll(tree->getRoot());
+                                        tree = new RedBlackTree();
                                         break;
                                     case 'X':
                                         structure = false;
@@ -329,12 +317,10 @@ int main() {
                             delete tree;
                             break;
                         }
-
                         case 5: {
                             mode = false;
                             break;
                         }
-
                         default: {
                             cout << "Niepoprawny wybor! Sproboj ponownie." << endl;
                             break;
@@ -345,15 +331,16 @@ int main() {
             }
 
             case 2: {
-                fstream file;
-                string tmp;
-                long long int frequency, start, elapsed = 0;
-                QueryPerformanceCounter((LARGE_INTEGER *) &frequency);
-                //variable used for measuring time of searching
-                bool found;
+                fstream file;       // handle for .txt file
+                string tmp;         //used for reading from .txt file
+                double time = 0.0;  //time of code execution
+                bool found;         //variable used for measuring time of searching
                 while (mode) {
                     structure = true;
-                    cout << "-----------------Tryb pomiarowy----------------" << endl;
+                    cout << "--------------------------------Tryb pomiarowy-------------------------------" << endl;
+//                    cout<<"PLIK TXT W TYM SAMYM FOLDERZE, CO PLIK EXE! NAZWA PLIKU W FORMACIE nazwa.txt!"<<endl;
+//                    cout<<"Nazwa pliku zawierajacego dane: ";
+//                    cin >> filepath;
                     cout << "[1] Lista dwukierunkowa" << endl;
                     cout << "[2] Tablica dynamiczna" << endl;
                     cout << "[3] Kopiec binarny" << endl;
@@ -363,243 +350,340 @@ int main() {
                     cin >> input;
                     switch (input) {
                         case 1: {
+                            bool ready = false;
                             auto *list = new TwoWayList();
                             cout << "[1] Lista dwukierunkowa" << endl;
                             random_numbers_to_txt();
 
                             //fill the list with random numbers from txt file
                             file.open(filepath, ios::in);
-                            while (getline(file, tmp))
-                                list->addLast(atoi(tmp.c_str()));
+                            while (getline(file, tmp)) {
+                                if (ready)
+                                    list->addLast(atoi(tmp.c_str()));
+                                else
+                                    ready = true;
+                            }
                             file.close();
 
                             while (structure) {
                                 cout << "DODAWANIE: (A) na poczatek  (B) na koniec  (C) w dowolne miejsce" << endl;
                                 cout << "USUWANIE:  (D) z poczatku   (E) z konca    (F) z dowolnego miejsca" << endl;
-                                cout << "INNE:      (G) Wyszukiwanie (X) Powrot" << endl;
+                                cout << "INNE:      (G) Wyszukiwanie (H) Wyswietl   (X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
                                 if (operation == 'A' || operation == 'B' || operation == 'C') {
                                     cout << "Dodawana liczba: ";
                                     cin >> input;
                                     if (operation == 'A') {
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         list->addFirst(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+
                                     } else if (operation == 'B') {
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         list->addLast(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+
                                     } else {
                                         cout << "Na jaka pozycje: ";
                                         cin >> index;
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         list->add(input, index);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
                                     }
                                 } else if (operation == 'D') {
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     list->removeFirst();
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
+
                                 } else if (operation == 'E') {
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     list->removeLast();
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
+
                                 } else if (operation == 'F') {
                                     cout << "Pozycja do usuniecia: ";
                                     cin >> index;
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     list->remove(index);
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
+
                                 } else if (operation == 'G') {
                                     cout << "Liczba do znalezienia: ";
                                     cin >> input;
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     found = list->contains(input);
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
+
                                     if (found)
                                         cout << input << " znajduje sie na liscie" << endl;
                                     else
                                         cout << input << " nie znajduje sie na lisicie" << endl;
                                 } else if (operation == 'X') {
                                     structure = false;
-                                } else {
+                                } else if (operation == 'H')
+                                    list->show();
+                                else {
                                     cout << "Nieprawidlowy wybor sproboj ponownie!" << endl;
                                 }
-
-                                cout << "Time [s] = " << fixed << setprecision(30) << (float) elapsed /
-                                                                                      frequency << endl;
-                                cout << "Time [ms] = " << setprecision(30) << (1000.0 * elapsed) /
-                                                                              frequency << endl;
-                                cout << "Time [us] = " << setprecision(30) << (1000000.0 * elapsed) /
-                                                                              frequency << endl;
+                                cout << "Czas wykonania operacji: " << time << " ns" << endl;
                             }
-
                             delete list;
                             break;
                         }
 
                         case 2: {
-                            auto *array = new DynamicArray();
-                            int *tmp_array = nullptr;
-
                             cout << "[2] Tablica dynamiczna" << endl;
                             random_numbers_to_txt();
+                            int size;
+                            int *tmp_array;
                             file.open(filepath, ios::in);
-                            //size of the array
-                            file >> input;
-                            tmp_array = new int[input];
-                            //fill the dynamic array with random numbers from txt file
-                            for (int i = 0; i < input; i++)
-                                file >> tmp_array[i];
+                            getline(file, tmp);
+                            size = atoi(tmp.c_str());
+                            tmp_array = new int[size];
+                            for (int i = 0; i < size; i++) {
+                                getline(file, tmp);
+                                tmp_array[i] = atoi(tmp.c_str());
+                            }
                             file.close();
-                            array->setArray(tmp_array);
+                            auto *array = new DynamicArray(tmp_array, size);
                             delete tmp_array;
-
                             while (structure) {
                                 cout << "DODAWANIE: (A) na poczatek  (B) na koniec (C) w dowolne miejsce" << endl;
                                 cout << "USUWANIE:  (D) z poczatku   (E) z konca   (F) z dowolnego miejsca" << endl;
-                                cout << "INNE:      (G) Wyszukiwanie (X) Powrot" << endl;
+                                cout << "INNE:      (G) Wyszukiwanie (H) Wyswietl  (X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
                                 if (operation == 'A' || operation == 'B' || operation == 'C') {
                                     cout << "Dodawana liczba: ";
                                     cin >> input;
                                     if (operation == 'A') {
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         array->addFirst(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
                                     } else if (operation == 'B') {
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         array->addLast(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
                                     } else {
                                         cout << "Na jaka pozycje: ";
                                         cin >> index;
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         array->add(index, input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
                                     }
                                 } else if (operation == 'D') {
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     array->removeFirst();
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
                                 } else if (operation == 'E') {
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     array->removeLast();
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
                                 } else if (operation == 'F') {
                                     cout << "Pozycja do usuniecia: " << endl;
                                     cin >> index;
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     array->removeLast();
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
                                 } else if (operation == 'G') {
                                     cout << "Liczba do znalezienia: ";
                                     cin >> input;
-                                    start = readQPC();
+                                    auto start = steady_clock::now();
                                     found = array->contains(input);
-                                    elapsed = readQPC() - start;
+                                    auto end = steady_clock::now();
+                                    time = double(duration_cast<nanoseconds>(end - start).count());
                                     if (found)
                                         cout << input << " znajduje sie w tablicy" << endl;
                                     else
                                         cout << input << " nie znajduje sie w tablicy" << endl;
+                                } else if (operation == 'H') {
+                                    array->show();
                                 } else if (operation == 'X') {
                                     structure = false;
                                 } else {
                                     cout << "Nieprawidlowy wybor! Sproboj ponownie." << endl;
                                 }
-                                cout << "Time [s] = " << fixed << setprecision(30) << (float) elapsed /
-                                                                                      frequency << endl;
-                                cout << "Time [ms] = " << setprecision(30) << (1000.0 * elapsed) /
-                                                                              frequency << endl;
-                                cout << "Time [us] = " << setprecision(30) << (1000000.0 * elapsed) /
-                                                                              frequency << endl << endl;
+                                cout << "Czas wykonania operacji: " << time << " ns" << endl;
                             }
                             delete array;
                             break;
                         }
 
                         case 3: {
+                            bool ready = false;
                             auto *heap = new BinaryHeap();
                             cout << "[3] Kopiec binarny" << endl;
                             random_numbers_to_txt();
-                            //todo:think of reading numbers from txt file!
-                            //fill the heap with random numbers form txt file
+                            //fill the heap with random numbers from txt file
                             file.open(filepath, ios::in);
-                            while (getline(file, tmp));
-                            heap->add(atoi(tmp.c_str()));
+                            while (getline(file, tmp)) {
+                                if (ready)
+                                    heap->add(atoi(tmp.c_str()));
+                                else
+                                    ready = true;
+                            }
                             file.close();
 
                             while (structure) {
-                                cout << "(A) Dodawanie         (B) Usuwanie     (C) Wyszukiwanie" << endl;
-                                cout << "(D) Czyszczenie kopca (X) Powrot" << endl;
+                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie ";
+                                cout << "(D) Czyszczenie kopca (E) Wyswietl (X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
                                 switch (operation) {
-                                    case 'A':
+                                    case 'A': {
                                         cout << "Dodawana liczba: ";
                                         cin >> input;
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         heap->add(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
                                         break;
-                                    case 'B':
-                                        start = readQPC();
+                                    case 'B': {
+                                        auto start = steady_clock::now();
                                         heap->remove();
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
                                         break;
-                                    case 'C':
+                                    case 'C': {
                                         cout << "Liczba do znalezienia: ";
                                         cin >> input;
-                                        start = readQPC();
+                                        auto start = steady_clock::now();
                                         found = heap->contains(input);
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+
                                         if (found)
                                             cout << input << "znajduje sie w kopcu." << endl;
                                         else
                                             cout << input << "nie znajduje sie w kopcu." << endl;
+                                    }
                                         break;
-                                    case 'D':
-                                        start = readQPC();
+                                    case 'D': {
+                                        auto start = steady_clock::now();
                                         heap->removeAll();
-                                        elapsed = readQPC() - start;
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
+                                        break;
+                                    case 'E':
+                                        heap->show();
                                         break;
                                     case 'X':
                                         structure = false;
                                         break;
                                     default:
-                                        cout << "Nieprawidlowy wybor sproboj ponownie!" << endl;
+                                        cout << "Nieprawidlowy wybor! Sproboj ponownie." << endl;
                                         break;
-
                                 }
-                                cout << "Time [s] = " << fixed << setprecision(30) << (float) elapsed / frequency
-                                     << endl;
-                                cout << "Time [ms] = " << setprecision(30) << (1000.0 * elapsed) / frequency << endl;
-                                cout << "Time [us] = " << setprecision(30) << (1000000.0 * elapsed) / frequency << endl;
+                                cout << "Czas wykonania operacji: " << time << " ns" << endl;
                             }
                             break;
                         }
 
                         case 4: {
+                            bool ready = false;
+                            auto *tree = new RedBlackTree();
+                            cout << "[4] Drzewo czerwono-czarne" << endl;
+                            random_numbers_to_txt();
+                            //fill the tree with random numbers from txt file
+                            file.open(filepath, ios::in);
+                            file >> tmp;
+                            while (getline(file, tmp)) {
+                                if (ready)
+                                    tree->add(atoi(tmp.c_str()));
+                                else
+                                    ready = true;
+                            }
+                            file.close();
+
+                            while (structure) {
+                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie (D) Czyszczenie kopca ";
+                                cout << "(E) Wyswietl (X) Powrot" << endl;
+                                cout << ": ";
+                                cin >> operation;
+                                switch (operation) {
+                                    case 'A': {
+                                        cout << "Dodawana liczba: ";
+                                        cin >> input;
+                                        auto start = steady_clock::now();
+                                        tree->add(input);
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
+                                        break;
+                                    case 'B': {
+                                        cout << "Usuwana liczba: ";
+                                        cin >> input;
+                                        auto start = steady_clock::now();
+                                        tree->remove(input);
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
+                                        break;
+                                    case 'C': {
+                                        cout << "Liczba do znalezienia: ";
+                                        cin >> input;
+                                        auto start = steady_clock::now();
+                                        found = tree->contains(input);
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                        if (found)
+                                            cout << input << " znajduje sie w drzewie" << endl;
+                                        else
+                                            cout << input << "nie znajduje sie w drzewie" << endl;
+                                    }
+                                        break;
+                                    case 'D': {
+                                        auto start = steady_clock::now();
+                                        tree->removeAll(tree->getRoot());
+                                        tree = new RedBlackTree();
+                                        auto end = steady_clock::now();
+                                        time = double(duration_cast<nanoseconds>(end - start).count());
+                                    }
+                                        break;
+                                    case 'E':
+                                        tree->show(tree->getRoot());
+                                        break;
+                                    case 'X':
+                                        structure = false;
+                                        break;
+                                    default:
+                                        cout << "Nieprawidlowy wybor! Sproboj ponownie." << endl;
+                                        break;
+                                }
+                                cout << "Czas wykonania operacji: " << time << " ns" << endl;
+                            }
+                            delete tree;
                             break;
                         }
-
                         case 5: {
                             mode = false;
                             break;
                         }
-
                         default: {
                             cout << "Niepoprawny wyobr! Sproboj ponownie" << endl;
                             break;
                         }
                     }
-
                 }
                 break;
             }
-
             default: {
                 cout << "Niepoprawny wybor! Sproboj ponownie." << endl;
                 break;
@@ -607,7 +691,6 @@ int main() {
         }
         mode = true;
     }
-
     return 0;
 }
 

@@ -13,8 +13,10 @@ private:
     //dynamic-sized array
     int * array;
 public:
-    //constructor
+    //parameterless constructor
     DynamicArray();
+    //constructor
+    DynamicArray(int *tmp, int size);
     //destructor
     virtual ~DynamicArray();
     //adds the data at the beginning of the dynamic array
