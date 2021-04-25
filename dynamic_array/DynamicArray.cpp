@@ -12,7 +12,9 @@ DynamicArray::DynamicArray() {
 }
 
 DynamicArray::~DynamicArray() {
-    removeAll();
+    delete [] array;
+    array = nullptr;
+    size = 0;
 }
 
 void DynamicArray::addFirst(int data) {

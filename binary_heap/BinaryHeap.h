@@ -8,17 +8,16 @@
 
 class BinaryHeap {
 private:
-    //dynamic dynamic_array storing data added to the binary heap
+    //dynamic dynamic array storing data added to the binary heap
     int *heap;
     //size of the binary heap
     int size;
 
-    //restores binary heap features to the structure
-    void restore(int range, int offset = 0) const;
-
 public:
     //constructor
     BinaryHeap();
+
+    BinaryHeap(int *h, int size);
 
     //destructor
     virtual ~BinaryHeap();
@@ -38,7 +37,8 @@ public:
     //prints content of the binary heap
     void show();
 
-
+    //restores binary heap features to the structure
+    void restore(int range, int offset = 0) const;
 };
 
 

@@ -118,3 +118,11 @@ BinaryHeap::~BinaryHeap() {
     removeAll();
     heap = nullptr;
 }
+
+BinaryHeap::BinaryHeap(int *h, int size) {
+    heap = new int[size];
+    for (int i = 0; i < size; i++) {
+        this->heap[i] = h[i];
+    }
+    this->size = size;
+}
