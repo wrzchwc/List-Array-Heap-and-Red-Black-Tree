@@ -569,9 +569,9 @@ int main() {
                                         time = double(duration_cast<nanoseconds>(end - start).count());
 
                                         if (found)
-                                            cout << input << "znajduje sie w kopcu." << endl;
+                                            cout << input << " znajduje sie w kopcu." << endl;
                                         else
-                                            cout << input << "nie znajduje sie w kopcu." << endl;
+                                            cout << input << " nie znajduje sie w kopcu." << endl;
                                     }
                                         break;
                                     case 'D': {
@@ -613,7 +613,7 @@ int main() {
                             file.close();
 
                             while (structure) {
-                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie (D) Czyszczenie kopca ";
+                                cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie (D) Czyszczenie drzewa ";
                                 cout << "(E) Wyswietl (X) Powrot" << endl;
                                 cout << ": ";
                                 cin >> operation;
@@ -646,7 +646,7 @@ int main() {
                                         if (found)
                                             cout << input << " znajduje sie w drzewie" << endl;
                                         else
-                                            cout << input << "nie znajduje sie w drzewie" << endl;
+                                            cout << input << " nie znajduje sie w drzewie" << endl;
                                     }
                                         break;
                                     case 'D': {
