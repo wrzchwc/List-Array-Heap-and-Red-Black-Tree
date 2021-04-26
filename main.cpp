@@ -277,7 +277,7 @@ int main() {
                             while (structure) {
                                 cout << "(rodzic adres wartosc kolor)" << endl;
 
-                                tree->show(tree->getRoot());
+                                tree->show(tree->getRoot(), 0);
                                 cout << endl;
                                 cout << "(A) Dodawanie (B) Usuwanie (C) Wyszukiwanie";
                                 cout << " (D) Czyszczenie drzewa (X) Powrot" << endl;
@@ -658,7 +658,7 @@ int main() {
                                     }
                                         break;
                                     case 'E':
-                                        tree->show(tree->getRoot());
+                                        tree->show(tree->getRoot(), 0);
                                         break;
                                     case 'X':
                                         structure = false;

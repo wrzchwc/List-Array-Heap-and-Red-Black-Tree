@@ -2,6 +2,7 @@
 // Created by kubaw on 19.04.2021.
 //
 #include <iostream>
+#include <iomanip>
 #include "Node.h"
 #include "RedBlackTree.h"
 
@@ -13,7 +14,7 @@ RedBlackTree::RedBlackTree() {
     root = nullptr;
 }
 
-RedBlackTree::~RedBlackTree(){
+RedBlackTree::~RedBlackTree() {
     removeAll(getRoot());
 }
 
@@ -46,13 +47,15 @@ void RedBlackTree::add(int data) {
 }
 
 
-void RedBlackTree::show(Node *node) {
-    Node *tmp = node;
-    if (tmp == nullptr)
+void RedBlackTree::show(Node *node, int indent) {
+    if (node == nullptr)
         return;
-    cout << "(" << tmp->getParent() << " " << tmp << " " << tmp->getData() << " " << tmp->getColor() << ")" << endl;
-    show(tmp->getLeftChild());
-    show(tmp->getRightChild());
+    if (node->getRightChild()) show(node->getRightChild(), indent + 4);
+    if (indent)
+        cout << setw(indent) << ' ';
+    cout << node->getData() << node->getColor() << "\n ";
+    if (node->getLeftChild()) show(node->getLeftChild(), indent + 4);
+
 }
 
 Node *RedBlackTree::getRoot() {
@@ -274,7 +277,7 @@ void RedBlackTree::remove(int data) {
                     cout << "Wystapil blad podczas usuwania!" << endl;
             }
         }
-        if(size==3&&root->getLeftChild()->getColor()=='B'&&root->getRightChild()->getColor()=='B'){
+        if (size == 3 && root->getLeftChild()->getColor() == 'B' && root->getRightChild()->getColor() == 'B') {
             root->getLeftChild()->setColor('R');
             root->getRightChild()->setColor('R');
         }

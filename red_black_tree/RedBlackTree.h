@@ -44,7 +44,7 @@ public:
     void add(int data);
 
     //prints content of the tree (using pre-order way of tree traversing)
-    void show(Node *node);
+    void show(Node *node, int indent);
 
     //returns the root of the tree
     [[nodiscard]]  Node *getRoot();
